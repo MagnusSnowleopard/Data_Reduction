@@ -2,7 +2,8 @@
 #define __iamauniqueid_h__
 
 #define MAXID 9
-
+#include<cstdio>
+#include <stdio.h> 
 #include<map>
 
 #include <TTree.h>
@@ -31,12 +32,18 @@ extern GCutG* pg_timing;
 struct HIT {
   
   HIT() {
+    dE     = 0.0; 
+    E      = 0.0; 
+
     Detid  = 0; 
     Time   = 0.0; 
     Theta  = 0.0; 
     Energy = 0.0; 
     Highest_energy = 0.0;  
   }
+  
+  double dE; 
+  double E; 
 
   int    Detid;  //The Detector ID 
   double Time;   //The Timing of each det. 

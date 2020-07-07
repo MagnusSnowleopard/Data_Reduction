@@ -9,6 +9,6 @@ OBJS+="save_output.cxx "
 OBJS+="process_hits.cxx "
 
 #echo "g++ -g -o fsu_output $OBJS `grutinizer-config --cflags --all-libs --root`" 
-g++ -g -o fsu_output $OBJS `grutinizer-config --cflags --all-libs --root` 
+g++ -g -o REDUCT $OBJS `grutinizer-config --cflags --all-libs --root` 
 
 

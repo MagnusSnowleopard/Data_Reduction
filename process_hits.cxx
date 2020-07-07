@@ -107,10 +107,13 @@ int get_id(int mapped_num) {
   return junk;
 }
 
-void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time) {
+void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time, double dEEnergy, double EEnergy) {
 
   //for every det that needs addback, non zero initials 
 
+  phit->dE = dEEnergy;
+  phit->E = EEnergy;
+  
   if (phit->Detid != 0) { 
 
     //addback energies; 
@@ -118,18 +121,19 @@ void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time) {
 
     if(fhit.GetEnergy() > phit->Highest_energy) {
 
-      phit->Time   = dE_time - fhit.GetTime(); 
+      phit->Time   = (double)dE_time - fhit.GetTime(); 
       phit->Theta  = fhit.GetPosition().Theta(); 
       phit->Highest_energy = fhit.GetEnergy(); 
     }
 
   }
   else {
+  
 
     phit->Highest_energy = fhit.GetEnergy();  
 
     phit->Detid  = ID; 
-    phit->Time   = dE_time - fhit.GetTime(); 
+    phit->Time   = (double)dE_time - fhit.GetTime(); 
     phit->Theta  = fhit.GetPosition().Theta(); 
     phit->Energy = fhit.GetEnergy(); 
   }
@@ -137,15 +141,11 @@ void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time) {
 }
 
 
+std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime, double dEEnergy, double EEnergy){
 
-
-
-std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime){
 
   std::map<int,HIT> hit_map; //this maps a detector id to a HIT. 
   std::map<int,HIT>::iterator hit_map_it; 
-
-  std::vector<HIT> hit_box; //contains 4 data types, allows us to pushback into ghit. 
 
   std::vector<HIT> ghit;   //dont reserve a size.  
   initmap(); //this is for the detector maps
@@ -165,9 +165,7 @@ std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime){
     HIT h; 
     if(hit_map.count(ID)) { h = hit_map[ID]; } 
 
-    copy_hit(hit1, &h, ID, dEtime); 
-
-
+    copy_hit(hit1, &h, ID, dEtime, dEEnergy, EEnergy); 
 
     hit_map[ID] = h; 
   }   

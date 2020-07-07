@@ -8,9 +8,7 @@ bool check_pid(double dE_energy, double E_energy){
 //  TFile* cut = new TFile("/home/derosa/workspace/derosa_cuts.cuts");
 //  PID = (GCutG*)cut->Get("PID");
 
-
-  if(!PID->IsInside(E_energy,dE_energy)){A_boolean_value = false;} 
-  else {A_boolean_value = true;} 
+  A_boolean_value = PID->IsInside(E_energy,dE_energy); 
 
   return A_boolean_value; 
 }

@@ -22,8 +22,8 @@ TTree* output(const char* oname){
 
 
   tree->Branch("ndet",&ndet,"ndet/I");
-//  tree->Branch("dE",&dE, "dE/D");
-//  tree->Branch("E", &E, "E/D");
+  tree->Branch("dE",&dE, "dE/D");
+  tree->Branch("E", &E, "E/D");
 
   tree->Branch("Detid", &Detid, "Detid[ndet]/I");
   tree->Branch("Time",&Time, "Time[ndet]/D");
