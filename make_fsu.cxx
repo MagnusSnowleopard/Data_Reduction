@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <cstdio>
 
+#include <TGRUTUtilities.h>
+
 TChain* input(const char* iname);  
+
 
 TTree* output(const char* oname);
 
@@ -20,27 +23,17 @@ void save_output(TTree* t);
 int main(int argc, char* argv[]) {
 
   TChain* chain = input(argv[1]);
-/* 
-  std::vector<char> run_o; 
+
+  //allows us to create the file name here. 
+  std::string run_number = get_run_number(argv[1]);   
   
-  std::string run_i (argv[1]); 
-  
-  for(int k = 0; k < sizeof(run_i); k++){
+  std::string o_file_name = "reduced-";
+
+  o_file_name.append(run_number);
+
+  o_file_name.append(".root");  
     
-    run_o.push_back(run_i[k]);   
-  
-  }
-  
-  for(int p = 0; p < sizeof(run_o); p++){ 
-
-    // remove and replace things in run_o to make output file name here;
-    std::cout << "\t the content of run_o is :" << run_o[p] <<std::endl; 
-  }  
-  std::cout <<"\t  run output size is : " << run_o.size() << std::endl; 
-*/
-  
-
-  TTree* tree = output("run1277_s.root"); 
+  TTree* tree = output(o_file_name.c_str()); //std::string into a const char*  
   
   long x = 0; 
   long ne = chain->GetEntries(); 
@@ -58,7 +51,8 @@ int main(int argc, char* argv[]) {
 
     for(size_t h = 0; h < gfsu->Size();h++){
       TFSUHit hit1 = gfsu->GetFSUHit(h); 
-
+      //why did this print as an unassigned/ uninitialized number. ??
+      printf("\t I am here %lu \n",gfsu->GetDeltaE().GetTime());
       if(check_time(gfsu->GetDeltaE().GetTime(),
             hit1.GetTime(),
             hit1.GetEnergy()) == false) {continue;}

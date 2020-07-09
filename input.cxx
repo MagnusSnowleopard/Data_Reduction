@@ -21,6 +21,7 @@ TChain* input(const char* iname) {
 
   TChannel::ReadCalFile("fsu.cal");
   TFile* cut = new TFile("/home/derosa/workspace/derosa_cuts.cuts");
+  //TFile* cut = new TFile("/home/derosa/workspace/derosa_cuts.cuts");
   PID = (GCutG*)cut->Get("all_particle");
   pg_timing = (GCutG*)cut->Get("pg_time"); 
 

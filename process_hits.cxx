@@ -121,7 +121,7 @@ void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time, double dEEnergy, 
 
     if(fhit.GetEnergy() > phit->Highest_energy) {
 
-      phit->Time   = (double)dE_time - fhit.GetTime(); 
+      phit->Time   = (double)dE_time - fhit.GetTime() + 0.0001; 
       phit->Theta  = fhit.GetPosition().Theta(); 
       phit->Highest_energy = fhit.GetEnergy(); 
     }
@@ -133,7 +133,7 @@ void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time, double dEEnergy, 
     phit->Highest_energy = fhit.GetEnergy();  
 
     phit->Detid  = ID; 
-    phit->Time   = (double)dE_time - fhit.GetTime(); 
+    phit->Time   = (double)dE_time - fhit.GetTime() + 0.0001; 
     phit->Theta  = fhit.GetPosition().Theta(); 
     phit->Energy = fhit.GetEnergy(); 
   }
