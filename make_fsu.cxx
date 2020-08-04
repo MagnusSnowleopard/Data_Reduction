@@ -11,9 +11,9 @@ TTree* output(const char* oname);
 
 bool check_pid(double dE_energy, double E_energy);
 
-bool check_time(double dE_time, double gtime, double gEnergy);
+int check_time(double dE_time, double gtime, double gEnergy);
 
-std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime, double dEEnergy, double EEnergy);
+std::vector<HIT> process_hits(std::vector<std::pair<TFSUHit,int> > array, double dEtime, double dEEnergy, double EEnergy);
 
 void fill_tree(std::vector<HIT> array, TTree* t);
 
@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
   //allows us to create the file name here. 
   std::string run_number = get_run_number(argv[1]);   
   
-  std::string o_file_name = "reduced-";
+  std::string o_file_name = PID->GetName();
 
   o_file_name.append(run_number);
 
@@ -46,19 +46,24 @@ int main(int argc, char* argv[]) {
       fflush(stdout); //force it to print. 
     }
     if(check_pid(gfsu->GetDeltaE().GetEnergy(), gfsu->GetE().GetEnergy()) == false) {continue;}
-
-    std::vector<TFSUHit> vect; 
-
+    
+   // std::vector<TFSUHit> vect; 
+    std::vector<std::pair<TFSUHit,int> > vect;
+    
     for(size_t h = 0; h < gfsu->Size();h++){
       TFSUHit hit1 = gfsu->GetFSUHit(h); 
       //why did this print as an unassigned/ uninitialized number. ??
-      printf("\t I am here %lu \n",gfsu->GetDeltaE().GetTime());
-      if(check_time(gfsu->GetDeltaE().GetTime(),
-            hit1.GetTime(),
-            hit1.GetEnergy()) == false) {continue;}
+     //  printf("\t I am here %f \n",(float)gfsu->GetDeltaE().GetTime());
 
-      vect.push_back(TFSUHit(hit1));
 
+      int check = check_time(gfsu->GetDeltaE().GetTime(),hit1.GetTime(),hit1.GetEnergy());
+      if(check == 0) {continue;}
+
+
+
+
+//      vect.push_back(TFSUHit(hit1));
+      vect.push_back(std::make_pair(TFSUHit(hit1),check));
 
     }
     std::vector<HIT> phits = process_hits(vect,gfsu->GetDeltaE().GetTime()

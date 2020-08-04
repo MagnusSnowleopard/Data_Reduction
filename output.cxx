@@ -3,7 +3,7 @@
 #include "global.h"
 
 
-
+int    check;         //1 == prompt || 2 == background
 int    ndet;          //Number of Detectors fired
 double dE;            //Delta E detector energy
 double E;             //E detector energy 
@@ -20,7 +20,7 @@ TTree* output(const char* oname){
   TTree* tree = new TTree("tree", "Simple FSU Tree"); 
   
 
-
+  tree->Branch("check", &check, "check/I");
   tree->Branch("ndet",&ndet,"ndet/I");
   tree->Branch("dE",&dE, "dE/D");
   tree->Branch("E", &E, "E/D");

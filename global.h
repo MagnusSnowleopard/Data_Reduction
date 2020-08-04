@@ -15,6 +15,7 @@
 #include <TFSUHit.h>
 #include <TChannel.h> 
 
+extern int    check; 
 extern int    ndet;          //Number of Detectors fired
 extern double dE;            //Delta E detector energy
 extern double E;             //E detector energy 
@@ -28,13 +29,14 @@ extern TFSU* gfsu;
 
 extern GCutG* PID; 
 extern GCutG* pg_timing; 
+extern GCutG* bg_timing; 
 
 struct HIT {
   
   HIT() {
     dE     = 0.0; 
     E      = 0.0; 
-
+    check  = 0;
     Detid  = 0; 
     Time   = 0.0; 
     Theta  = 0.0; 
@@ -44,7 +46,7 @@ struct HIT {
   
   double dE; 
   double E; 
-
+  int    check; 
   int    Detid;  //The Detector ID 
   double Time;   //The Timing of each det. 
   double Theta;  //The Angle of each det. 

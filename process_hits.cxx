@@ -141,7 +141,7 @@ void copy_hit(TFSUHit fhit, HIT* phit, int ID, double dE_time, double dEEnergy, 
 }
 
 
-std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime, double dEEnergy, double EEnergy){
+std::vector<HIT> process_hits(std::vector<std::pair<TFSUHit,int> > array, double dEtime, double dEEnergy, double EEnergy){
 
 
   std::map<int,HIT> hit_map; //this maps a detector id to a HIT. 
@@ -156,13 +156,15 @@ std::vector<HIT> process_hits(std::vector<TFSUHit> array, double dEtime, double 
   //Loop over TFSUHits
 
   for(x = 0; x<array.size(); x++) {
-    TFSUHit hit1 = array.at(x); 
+    TFSUHit hit1 = array.at(x).first;
+    int check = array.at(x).second; 
 
     //Get the new Detector id. 
     int ID = get_id(gmap[hit1.GetNumber()]); //returns 1 - 9. 
     //std::cout << "ID = " << ID << std::endl; 
 
     HIT h; 
+    h.check = check;
     if(hit_map.count(ID)) { h = hit_map[ID]; } 
 
     copy_hit(hit1, &h, ID, dEtime, dEEnergy, EEnergy); 

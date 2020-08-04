@@ -5,7 +5,7 @@ void fill_tree(std::vector<HIT> phit, TTree* t){
   ndet = phit.size(); 
   if(ndet > 9) {printf("\tVERY VERY BAD WORRY\n");
                 return;}
-    
+  check = phit.at(0).check;  
   dE = phit.at(0).dE;  
   E  = phit.at(0).E; 
   

@@ -4,3 +4,4 @@
 *.cuts
 REDUCT
 *.swo
+*.o
